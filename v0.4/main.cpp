@@ -31,7 +31,7 @@ int main() {
     tamanho_palavra = palavra_random.length();
     forca = palavra_random;
 
-    for(int i = 0; i < tamanho_palavra; i++) {
+    for(int i = 0; i < tamanho_palavra; i++) { // me retorna uma string do tamanha da palavra escolhida aleatoriamente, mas com - no lugar das letras
         forca[i] = '-';
     }
 
@@ -43,23 +43,16 @@ int main() {
         cout << forca << '\n';
 
         cout << "Letras erradas: \n";
-        for(int i = 0; i < letra_incorreta.size(); i++) {
+        for(int i = 0; i < letra_incorreta.size(); i++) { // vai sempre retornar as letras erradas, cada repetição do programa
             cout << letra_incorreta[i] << " ";
-        }
-
-        if(vitoria == tamanho_palavra) {
-            system("cls");
-            cout << "Voce venceu!\n";
-            cout << "A palavra era " << palavra_random << '\n';
-            return 0;
         }
 
         cout << "\nDigite uma letra: ";
         cin >> letra_usuario;
 
         for(int i = 0; i < tamanho_palavra; i++) {
-            if(letra_usuario == palavra_random[i]) {
-                forca[i] = letra_usuario;
+            if(letra_usuario == palavra_random[i]) { // verificação da letra digitada, caso exista na palavra escolhida pelo computador
+                forca[i] = letra_usuario; // se a letra exisitir, o programa atribui a letra na posição dentro da string que contem os -
                 vitoria++;
                 acerto = true;
             }
@@ -67,18 +60,23 @@ int main() {
 
         if(acerto == false) {
             vida--;
-            letra_incorreta.push_back(letra_usuario);
+            letra_incorreta.push_back(letra_usuario); // coloca a letra errada no vetor
         }
 
-        if(vida == 0) {
-            system("cls");
-            cout << "Voce perdeu!\n";
-            cout << "A palavra era " << palavra_random << "\nMais sorte na proxima!";
-            return 0;
-        }
-
-        acerto = false;
-    } while(vida >= 0 && vitoria <= tamanho_palavra);
+        acerto = false; // retorna o valor para false todo final do loop
+    } while(vida > 0 && vitoria < tamanho_palavra);
    
+    if(vitoria == tamanho_palavra) { // cada letra acertada acrescente +1 a variavel vitoria, logo quando vitoria for igual o tamanho da palavra, o usuario vence
+        system("cls");
+        cout << "Voce venceu!\n";
+        cout << "A palavra era " << palavra_random << '\n';
+    }
+
+    if(vida == 0) { // sempre que o usuario errar, uma vida é perdida, logo quando a quantidade de vidas zerar, o jogo termina
+        system("cls");
+        cout << "Voce perdeu!\n";
+        cout << "A palavra era " << palavra_random << "\nMais sorte na proxima!";
+    }
+
     return 0;
 }
