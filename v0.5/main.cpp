@@ -1,4 +1,3 @@
-#include <iostream>
 #include "dicionario.hpp"
 #include "Game.hpp"
 
