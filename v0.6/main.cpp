@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <cmath>
 
 using std::getline;
 using std::string;
+using std::vector;
 using std::cout;
 using std::cin;
 using std::ws;
@@ -26,38 +28,76 @@ int main() {
     string palavra_random = dicionario();
     string forca = palavra_random;
     int tamanho_palavra = forca.length();
+    vector<char> letra_inexistente;
     string palavra_usuario;
-    bool vitoria {false};
-    for(int i = 0; i < tamanho_palavra; i++) { forca[i] = '_'; }
+    bool vitoria {false}, letra_existe {false};
+
+    for(int i = 0; i < tamanho_palavra; i++) {
+        forca[i] = '_';
+    }
    
     do {
         system("cls");
+        cout << "Voce tem " << chance << " chances\n";
         cout << "Acerte a palavra: " << forca << '\n';
    
-        cout << "Digite uma palavra: ";
-        getline(cin >> ws, palavra_usuario);
-    
-        for(int i = 0; i < tamanho_palavra; i++) {
-            for(int j = 0; j < tamanho_palavra; j++) {
-                if(palavra_usuario[i] == palavra_random[j]) {
-                    forca[j] = palavra_usuario[i];
-                }
-            }
+        cout << "\nLetras erradas:\n";
+        for (int i = 0; i < letra_inexistente.size(); i++) {
+            cout << letra_inexistente[i] << " ";
         }
 
-        if(forca != palavra_random) { chance--; }
-        if(forca == palavra_random) { vitoria = true; }
-    } while(chance > 0 && vitoria != true);
+        cout << "\nDigite uma palavra: ";
+        getline(cin >> ws, palavra_usuario);
+    
+        for (int i = 0; i < tamanho_palavra; i++) {
+            for (int j = 0; j < tamanho_palavra; j++) {
+                if (palavra_usuario[i] == palavra_random[j]) {
+                    forca[j] = palavra_usuario[i];
+                    letra_existe = true;
+                }
+            }
+
+            if (letra_existe == false) {
+                letra_inexistente.push_back(palavra_usuario[i]);
+            }
+
+            letra_existe = false;
+        }
+
+        if (forca != palavra_random) {
+            chance--;
+        }
+
+        if (forca == palavra_random) {
+            vitoria = true;
+        }
+
+    } while (chance > 0 && vitoria != true);
 
     system("cls");
-    if(vitoria == true) {
-        cout << "Voce acertou a palavra! Parabens!\n";
+    if (vitoria == true) {
+        cout << "Voce tem " << chance << " chances\n";
         cout << "Acerte a palavra: " << forca << '\n';
+   
+        cout << "\nLetras erradas:\n";
+        for (int i = 0; i < letra_inexistente.size(); i++) {
+            cout << letra_inexistente[i] << " ";
+        }
+
+        cout << "\nParabens, voce acertou a palavra!!!!!\n";
     }
 
-    if(chance == 0) {
-        cout << "Infelizmente voce perdeu.. Mais sorte na proxima vez!\n";
+    if (chance == 0) {
+        cout << "Voce tem " << chance << " chances\n";
         cout << "Acerte a palavra: " << forca << '\n';
+   
+        cout << "\nLetras erradas:\n";
+        for (int i = 0; i < letra_inexistente.size(); i++) {
+            cout << letra_inexistente[i] << " ";
+        }
+
+        cout << "\nMais sorte na proxima vez... suas chances acabaram.\n";
     }
+
     return 0;
 }
